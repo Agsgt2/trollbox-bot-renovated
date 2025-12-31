@@ -6,14 +6,14 @@ var path = require('path')
 var he = require('he');
 var started = false
 var D = {
-  prefix = "-",
-  commands = {},
-  onmessagecommands = [],
-  onuserleftcommands = [],
-  onuserjoinedcommands = [],
-  currentname = "",
-  currentcolor = "",
-  socket = ""
+  prefix: "-",
+  commands: {},
+  onmessagecommands: [],
+  onuserleftcommands: [],
+  onuserjoinedcommands: [],
+  currentname: "",
+  currentcolor : "",
+  socket: ""
 }
 
 function connect(json) {
