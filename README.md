@@ -1,6 +1,7 @@
 # Trollbox-bot-renovated
 
-Trollbox-bot-renovated is a remade library.
+Trollbox-bot-renovated is a remade library.<br>
+Check out the [original library](https://github.com/codingMASTER398/trollbox-bot)!
 
 ## Installation
 
@@ -10,7 +11,7 @@ There is currently no library for this project
 
 First of all, require the module into your project.
 ```js
-tb = require("trollbox-bot")
+const tb = require("trollbox-bot")
 ```
 If you are using a `.mjs` file. Use this instead.
 ```js
