@@ -1,6 +1,6 @@
 a = require("../index")
 function go() {
-    a.connect("Testbot","blue","=","A")
+    a.connect({name: "Testbot", color: "blue", prefix: "=", welcome: "A"})
     a.onconnect = function(socket) {
         console.log("Connected!")
         a.setcommand("a",function(data, socket) {

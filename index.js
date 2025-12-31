@@ -5,64 +5,66 @@ var fs = require('fs')
 var path = require('path')
 var he = require('he');
 var started = false
-var prefix = "-"
-var commands = {}
-var onmessagecommands = []
-var onuserleftcommands = []
-var onuserjoinedcommands = []
-var currentname = ""
-var currentcolor = ""
-const socket = "";
+var D = {
+  prefix = "-",
+  commands = {},
+  onmessagecommands = [],
+  onuserleftcommands = [],
+  onuserjoinedcommands = [],
+  currentname = "",
+  currentcolor = "",
+  socket = ""
+}
 
-function connect(name, color, prefix, welcomemsg) {
-  currentname = name
-  currentcolor = color
+function connect(json) {
+  D.currentname = json.name
+  D.currentcolor = json.color
 
   exports.users = {}
-  const socket = io(address, tbh);
+  D.socket = io(address, tbh);
   exports.updatecolor= function(color) {
     console.log("Updating color")
-    socket.emit('user joined', currentname, color,"beepboop","")
-    currentcolor = color
+    D.socket.emit('user joined', D.currentname, json.color,"beepboop","")
+    D.currentcolor = json.color
   }
   exports.updatename= function(name) {
     console.log("Updating name")
-    socket.emit('user joined', name, currentcolor,"beepboop","")
-    currentname = name
+    D.socket.emit('user joined', name, D.currentcolor,"beepboop","")
+    D.currentname = json.name
   }
-  socket.on('_connected', function(data){
-    socket.emit('user joined', name, color,"beepboop","")
-    if(welcomemsg){
-      socket.send(welcomemsg)
+  D.socket.on('_connected', function(data){
+    D.socket.emit('user joined', json.name, json.color,"beepboop","")
+    if(json.welcome){
+      D.socket.send(json.welcome)
     }
-    prefix = prefix
+    D.prefix = json.prefix
     started = true
-    exports.onconnect(socket)
+    exports.onconnect(D.socket)
   })
   socket.on('disconnect', function(data) {
     console.log("Failed to connect, retrying...")
     var started = false
-    var prefix = "-"
-    var commands = {}
-    var onmessagecommands = []
-    var onuserleftcommands = []
-    var onuserjoinedcommands = []
-    var currentname = ""
-    var currentcolor = ""
-    const socket = "";
+    D.prefix = "-"
+    D.commands = {}
+    D.onmessagecommands = []
+    D.onuserleftcommands = []
+    D.onuserjoinedcommands = []
+    D.currentname = ""
+    D.currentcolor = ""
+    D.socket = "";
     connect(name, color, prefix, welcomemsg)
   });
   socket.on('user joined', function(data) {
-    for (let index = 0; index < onmessagecommands.length; index++) {
+    for (let index = 0; index < D.onmessagecommands.length; index++) {
       setTimeout(() => {
-        onmessagecommands[index](data);
+        D.onmessagecommands[index](data);
       }, 1);
     }
   });
   socket.on('user left', function(data) {
-    for (let index = 0; index < onuserleftcommands.length; index++) {
+    for (let index = 0; index < D.onuserleftcommands.length; index++) {
       setTimeout(() => {
-        onuserleftcommands[index](data);
+        D.onuserleftcommands[index](data);
       }, 1);
     }
   });
@@ -88,33 +90,33 @@ function connect(name, color, prefix, welcomemsg) {
         data.home = he.decode(data.home)
         data.nick = he.decode(data.nick).replace(/discord/g,"").replace(/hugs/g,"")
       
-        for (let index = 0; index < onmessagecommands.length; index++) {
+        for (let index = 0; index < D.onmessagecommands.length; index++) {
           setTimeout(() => {
-            onmessagecommands[index](data);
+            D.onmessagecommands[index](data);
           }, 1);
         }
       
         if (!started) return;
-        if (data.msg.startsWith(prefix)) {
-          file = data.msg.toLowerCase().slice(prefix.length).split(' ')[0]
+        if (data.msg.startsWith(D.prefix)) {
+          file = data.msg.toLowerCase().slice(D.prefix.length).split(' ')[0]
           if(commands[file]){
             commands[file](data, socket)
           }
         }
         
       }
-    }catch{
+    }catch {
       console.log("Error while reading message")
     }
   })
 }
 
-exports.connect = function(name, color, prefix, welcomemsg) {
-  connect(name, color, prefix, welcomemsg)
+exports.connect = function(json) {
+  connect(json)
 }
 
 exports.updateprefix = function(newprefix){
-  prefix = newprefix
+  D.prefix = newprefix
 }
 
 exports.setcommand = function(command,func){
@@ -122,12 +124,12 @@ exports.setcommand = function(command,func){
 }
 
 exports.onmessage = function(func) {
-  onmessagecommands.push(func)
+  D.onmessagecommands.push(func)
 }
 
 exports.onuserjoined = function(func) {
-  onuserjoinedcommands.push(func)
+  D.onuserjoinedcommands.push(func)
 }
 exports.onuserleft= function(func) {
-  onuserleftcommands.push(func)
+  D.onuserleftcommands.push(func)
 }

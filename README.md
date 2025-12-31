@@ -20,7 +20,7 @@ import tb from "trollbox-bot"
 
 To connect your bot, add the following code and change the parameters.
 ```js
-tb.connect("Name", "Color", "Prefix", "Welcome message")
+tb.connect({name: "Name", color: "Color", prefix: "Prefix", welcome: "Welcome message"})
 ```
 `onconnect` - the commands inside the function will be ran when the bot connects
 ```js
@@ -29,18 +29,19 @@ tb.onconnect = function(socket) {
   socket.disconnect()
 }
 ```
-`setcommand` - makes the bot react when `perfix + command == data.msg` is true.
+`setcommand` - makes the bot react when `prefix + command == data.msg` is true.
 ```js
 tb.setcommand("ping",function(data, socket) {
   socket.send("Pong!")
 })
 ```
+
 the `data` value contains the following:
 ```json
 {
   date: 1618120112288, // The date where the message has been sent.
   nick: 'joe',         // Name of the message in trollbox
-  color: '#f78b00',    // Color of the user
+  color: '#f78b00',  // Color of the user
   style: '',           // idk...
   home: 'Njg1MDg',     // The home of the user
   msg: '=a'            // The message of the user
@@ -75,6 +76,11 @@ tb.updatecolor("White")
 `updatename` - Updates the name of the bot
 ```js
 tb.updatename("Joebot (=)")
+```
+
+`updateprefix` - Updates the prefix of the bot
+```js
+tb.updateprefix("-")
 ```
 
 ### New in v1

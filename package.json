@@ -2,11 +2,11 @@
   "name": "trollbox-bot",
   "version": "1.0.6",
   "description": "",
-  "repository": "https://github.com/codingMASTER398/trollbox-bot",
+  "repository": "https://github.com/Agsgt2/trollbox-bot-renovated",
   "main": "index.js",
   "keywords": [],
   "license": "MIT",
-  "author": "codingMASTER398",
+  "author": "Agsgt2",
   "dependencies": {
     "he": "^1.2.0",
     "node-fetch": "^2.6.1",
