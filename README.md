@@ -11,11 +11,11 @@ There is currently no library for this project
 
 First of all, require the module into your project.
 ```js
-const tb = require("trollbox-bot")
+const tb = require("trollbox-bot-renovated") //There is no such thing as a "trollbox-bot-renovated"
 ```
 If you are using a `.mjs` file. Use this instead.
 ```js
-import tb from "trollbox-bot"
+import tb from "trollbox-bot-renovated" //There is no such thing as a "trollbox-bot-renovated"
 ```
 
 To connect your bot, add the following code and change the parameters.
@@ -91,14 +91,11 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-## His bot
-Yeah remember BONZI? well he's gone, sorry for his owner
-
 ## Bots made with this
 None so far that has been noted
 
 If you want your bot in this README, contact me at
-lachienoble10@outlook.com.
+angelthefourth20242026@gmail.com.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
