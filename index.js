@@ -22,15 +22,23 @@ function connect(json) {
 
   exports.users = {}
   D.socket = io(address, tbh);
-  exports.updatecolor= function(color) {
-    console.log("Updating color")
-    D.socket.emit('user joined', D.currentname, json.color,"beepboop","")
-    D.currentcolor = json.color
+  exports.color= function(color) {
+    if (color){
+      console.log("Updating color")
+      D.socket.emit('user joined', D.currentname, json.color,"beepboop","")
+      D.currentcolor = color
+    } else {
+      return D.currentcolor;
+    }
   }
-  exports.updatename= function(name) {
-    console.log("Updating name")
-    D.socket.emit('user joined', name, D.currentcolor,"beepboop","")
-    D.currentname = json.name
+  exports.name= function(name) {
+    if (color){
+      console.log("Updating name")
+      D.socket.emit('user joined', name, D.currentcolor,"beepboop","")
+      D.currentname = name
+    } else {
+      return D.currentname;
+    }
   }
   D.socket.on('_connected', function(data){
     D.socket.emit('user joined', json.name, json.color,"beepboop","")
