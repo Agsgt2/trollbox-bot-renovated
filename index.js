@@ -1,6 +1,6 @@
 var io = require('socket.io-client')
 var tbh = require('trollbox-headers').headers()
-var address = "http://www.windows93.net:8081";
+var address = "http://v2.windows93.net:8081";
 var fs = require('fs')
 var path = require('path')
 var he = require('he');
