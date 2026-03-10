@@ -16,13 +16,13 @@ var D = {
   socket: ""
 }
 
-function connect(json) {
+function connect(json: {name: string; color: string; prefix: string; welcome?: string;}) {
   D.currentname = json.name
   D.currentcolor = json.color
 
   exports.users = {}
   D.socket = io(address, tbh);
-  exports.color= function(color) {
+  exports.color= function(color: string) {
     if (color){
       console.log("Updating color")
       D.socket.emit('user joined', D.currentname, json.color,"beepboop","")
@@ -31,7 +31,7 @@ function connect(json) {
       return D.currentcolor;
     }
   }
-  exports.name= function(name) {
+  exports.name= function(name: string) {
     if (color){
       console.log("Updating name")
       D.socket.emit('user joined', name, D.currentcolor,"beepboop","")
@@ -40,7 +40,7 @@ function connect(json) {
       return D.currentname;
     }
   }
-  D.socket.on('_connected', function(data){
+  D.socket.on('_connected', function(data: [x: string]: unknown){
     D.socket.emit('user joined', json.name, json.color,"beepboop","")
     if(json.welcome){
       D.socket.send(json.welcome)
@@ -49,7 +49,7 @@ function connect(json) {
     started = true
     exports.onconnect(D.socket)
   })
-  socket.on('disconnect', function(data) {
+  socket.on('disconnect', function(data: [x: string]: unknown) {
     console.log("Failed to connect, retrying...")
     var started = false
     D.prefix = "-"
@@ -62,22 +62,22 @@ function connect(json) {
     D.socket = "";
     connect(name, color, prefix, welcomemsg)
   });
-  socket.on('user joined', function(data) {
+  socket.on('user joined', function(data: [x: string]: unknown) {
     for (let index = 0; index < D.onmessagecommands.length; index++) {
       setTimeout(() => {
-        D.onmessagecommands[index](data);
+        D.onmessagecommands[index](data, socket);
       }, 1);
     }
   });
-  socket.on('user left', function(data) {
+  socket.on('user left', function(data: [x: string]: unknown) {
     for (let index = 0; index < D.onuserleftcommands.length; index++) {
       setTimeout(() => {
-        D.onuserleftcommands[index](data);
+        D.onuserleftcommands[index](data, socket);
       }, 1);
     }
   });
   
-  socket.on('update users', function (data) {
+  socket.on('update users', function (data: [x: string]: unknown) {
   
     users={};
     for (var key in data) {
@@ -90,7 +90,7 @@ function connect(json) {
   }});
   
   var uses = 0
-  socket.on('message', function(data) {
+  socket.on('message', function(data: [x: string]: unknown) {
     try{
       if(String(data)){
         data.color = he.decode(data.color)
@@ -100,7 +100,7 @@ function connect(json) {
       
         for (let index = 0; index < D.onmessagecommands.length; index++) {
           setTimeout(() => {
-            D.onmessagecommands[index](data);
+            D.onmessagecommands[index](data, socket);
           }, 1);
         }
       
@@ -119,25 +119,25 @@ function connect(json) {
   })
 }
 
-exports.connect = function(json) {
+exports.connect = function(json: [x: string]: unknown) {
   connect(json)
 }
 
-exports.updateprefix = function(newprefix){
+exports.updateprefix = function(newprefix: string){
   D.prefix = newprefix
 }
 
-exports.setcommand = function(command,func){
+exports.setcommand = function(command: string,func: [x: string]: unknown){
   commands[command] = func
 }
 
-exports.onmessage = function(func) {
+exports.onmessage = function(func: [x: string]: unknown) {
   D.onmessagecommands.push(func)
 }
 
-exports.onuserjoined = function(func) {
+exports.onuserjoined = function(func: [x: string]: unknown) {
   D.onuserjoinedcommands.push(func)
 }
-exports.onuserleft= function(func) {
+exports.onuserleft= function(func: [x: string]: unknown) {
   D.onuserleftcommands.push(func)
 }
